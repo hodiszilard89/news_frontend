@@ -1,0 +1,45 @@
+
+services:
+  database:
+    image: database
+    container_name: database
+    networks:
+      mynetwork:
+        ipv4_address: 172.19.0.2
+
+    ports:
+      - "3306:3306"
+
+  server:
+    image: backend
+    container_name: backend
+    networks:
+      mynetwork:
+        ipv4_address: 172.19.0.3
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+
+
+  frontend:
+     image: frontend
+     container_name: frontend
+     networks:
+       mynetwork:
+         ipv4_address: 172.19.0.4
+     depends_on:
+      - server
+     ports:
+       - "3000:3000"
+
+     
+
+networks:
+    mynetwork:
+
+      ipam:
+        driver: default
+        config:
+          - subnet: 172.19.0.0/16
+
