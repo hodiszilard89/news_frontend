@@ -45,6 +45,7 @@ export interface ResponseForNewsQuery {
 
 const storage = window.localStorage;
 const SERVERHOST = process.env.REACT_APP_SERVERHOST;
+const apiUrl = process.env.REACT_APP_API_URL;
 const newsTag: string = "NEWS";
 const userTag: string = "USER";
 
@@ -72,7 +73,7 @@ export const newsApi = createApi({
       GetRequestParamsForNewsQuery
     >({
       query: (params: GetRequestParamsForNewsQuery) => ({
-        url: `http://${SERVERHOST}:8080/news/type/${params.typeId}/${params.limit}/${params.side}/${params.search}`,
+        url: `http://${SERVERHOST}/news/type/${params.typeId}/${params.limit}/${params.side}/${params.search}`,
         method: "GET",
       }),
 
@@ -87,7 +88,7 @@ export const newsApi = createApi({
     }),
     createNews: builder.mutation<RawNews, RawNews>({
       query: (news: RawNews) => ({
-        url: `http://${SERVERHOST}:8080/news`,
+        url: `http://${SERVERHOST}/news`,
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -99,7 +100,7 @@ export const newsApi = createApi({
     }),
     updateNews: builder.mutation<RawNews, RawNews>({
       query: (news: RawNews) => ({
-        url: `http://${SERVERHOST}:8080/news`,
+        url: `http://${SERVERHOST}/news`,
         method: "PUT",
         body: JSON.stringify(news),
       }),
@@ -108,14 +109,14 @@ export const newsApi = createApi({
 
     getOneNews: builder.query<News, RawNews["id"]>({
       query: (newsId: RawNews["id"]) => ({
-        url: `http://${SERVERHOST}:8080/news/${newsId}`,
+        url: `http://${SERVERHOST}/news/${newsId}`,
       }),
       providesTags: (news) => [{ type: newsTag, id: news?.id }],
     }),
 
     deleteNews: builder.mutation<void, News["id"]>({
       query: (newsId: number) => ({
-        url: `http://${SERVERHOST}:8080/news/delete/${newsId}`,
+        url: `http://${SERVERHOST}/news/delete/${newsId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_resut, error, id) => {
@@ -130,7 +131,7 @@ export const newsApi = createApi({
     //-------USER
     getUsers: builder.query<User[], void>({
       query: () => ({
-        url: `http://${SERVERHOST}:8080/users`,
+        url: `http://${SERVERHOST}/users`,
         method: "GET",
       }),
       providesTags: (result?: User[]) => {
@@ -141,20 +142,20 @@ export const newsApi = createApi({
     }),
     getUser: builder.query<User, User["id"]>({
       query: (userId: User["id"]) => ({
-        url: `http://${SERVERHOST}:8080/users/${userId}`,
+        url: `http://${SERVERHOST}/users/${userId}`,
       }),
       providesTags: [{ type: userTag, id: "LIST" }],
     }),
     getTypes: builder.query<Type[], void>({
       query: () => ({
-        url: `http://${SERVERHOST}:8080/news/gettypes`,
+        url: `http://${SERVERHOST}/news/gettypes`,
         method: "GET",
       }),
       //providesTags: (_result, _error, id) => ([{ type: MovieTag, id }]),
     }),
     deleteUser: builder.mutation<void, number>({
       query: (userId: number) => ({
-        url: `http://${SERVERHOST}:8080/users/${userId}`,
+        url: `http://${SERVERHOST}/users/${userId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_resut, error, id) => {
@@ -183,7 +184,7 @@ export const newsApi = createApi({
     }),
     updateUser: builder.mutation<void, updateUserParam>({
       query: ({ user, image }) => ({
-        url: `http://${SERVERHOST}:8080/users`,
+        url: `http://${SERVERHOST}/users`,
         method: "PUT",
         body: { usersDTO: user, image: image },
       }),
@@ -195,7 +196,7 @@ export const newsApi = createApi({
     //-------TOKEN
     getToken: builder.query<Token, GetTokenQueryParams>({
       query: (params: GetTokenQueryParams) => ({
-        url: `http://${SERVERHOST}:8080/authentication`,
+        url: `http://${SERVERHOST}/authentication`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -223,7 +224,7 @@ export const newsApi = createApi({
     //----IMAGE
     uploadImage: builder.mutation<void, string>({
       query: (image: string) => ({
-        url: `http://${SERVERHOST}:8080news/uploadimage`,
+        url: `http://${SERVERHOST}news/uploadimage`,
         method: "POST",
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
@@ -238,7 +239,7 @@ export const newsApi = createApi({
     //----  COMMENT
     addComment: builder.mutation<void, Comment>({
       query: (comment: Comment) => ({
-        url: `http://${SERVERHOST}:8080/comment`,
+        url: `http://${SERVERHOST}/comment`,
         method: "POST",
         // headers: {
         //   "Content-Type": "text/plain; charset=utf-8",
@@ -259,7 +260,7 @@ export const newsApi = createApi({
     //----- LIKE
     addLike: builder.mutation<void, Like>({
       query: (like: Like) => ({
-        url: `http://${SERVERHOST}:8080/news/addlike`,
+        url: `http://${SERVERHOST}/news/addlike`,
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
