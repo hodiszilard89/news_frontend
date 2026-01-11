@@ -73,7 +73,7 @@ export const newsApi = createApi({
       GetRequestParamsForNewsQuery
     >({
       query: (params: GetRequestParamsForNewsQuery) => ({
-        url: `http://${SERVERHOST}/news/type/${params.typeId}/${params.limit}/${params.side}/${params.search}`,
+        url: `https://${SERVERHOST}/news/type/${params.typeId}/${params.limit}/${params.side}/${params.search}`,
         method: "GET",
       }),
 
@@ -88,7 +88,7 @@ export const newsApi = createApi({
     }),
     createNews: builder.mutation<RawNews, RawNews>({
       query: (news: RawNews) => ({
-        url: `http://${SERVERHOST}/news`,
+        url: `https://${SERVERHOST}/news`,
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -100,7 +100,7 @@ export const newsApi = createApi({
     }),
     updateNews: builder.mutation<RawNews, RawNews>({
       query: (news: RawNews) => ({
-        url: `http://${SERVERHOST}/news`,
+        url: `https://${SERVERHOST}/news`,
         method: "PUT",
         body: JSON.stringify(news),
       }),
@@ -109,14 +109,14 @@ export const newsApi = createApi({
 
     getOneNews: builder.query<News, RawNews["id"]>({
       query: (newsId: RawNews["id"]) => ({
-        url: `http://${SERVERHOST}/news/${newsId}`,
+        url: `https://${SERVERHOST}/news/${newsId}`,
       }),
       providesTags: (news) => [{ type: newsTag, id: news?.id }],
     }),
 
     deleteNews: builder.mutation<void, News["id"]>({
       query: (newsId: number) => ({
-        url: `http://${SERVERHOST}/news/delete/${newsId}`,
+        url: `https://${SERVERHOST}/news/delete/${newsId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_resut, error, id) => {
@@ -131,7 +131,7 @@ export const newsApi = createApi({
     //-------USER
     getUsers: builder.query<User[], void>({
       query: () => ({
-        url: `http://${SERVERHOST}/users`,
+        url: `https://${SERVERHOST}/users`,
         method: "GET",
       }),
       providesTags: (result?: User[]) => {
@@ -142,20 +142,20 @@ export const newsApi = createApi({
     }),
     getUser: builder.query<User, User["id"]>({
       query: (userId: User["id"]) => ({
-        url: `http://${SERVERHOST}/users/${userId}`,
+        url: `https://${SERVERHOST}/users/${userId}`,
       }),
       providesTags: [{ type: userTag, id: "LIST" }],
     }),
     getTypes: builder.query<Type[], void>({
       query: () => ({
-        url: `http://${SERVERHOST}/news/gettypes`,
+        url: `https://${SERVERHOST}/news/gettypes`,
         method: "GET",
       }),
       //providesTags: (_result, _error, id) => ([{ type: MovieTag, id }]),
     }),
     deleteUser: builder.mutation<void, number>({
       query: (userId: number) => ({
-        url: `http://${SERVERHOST}/users/${userId}`,
+        url: `https://${SERVERHOST}/users/${userId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_resut, error, id) => {
@@ -171,7 +171,7 @@ export const newsApi = createApi({
       //első paraméter amit visszakapunk 2. amit küldünk
 
       query: (user: User) => ({
-        url: `http://${SERVERHOST}:8080/users`,
+        url: `https://${SERVERHOST}:8080/users`,
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
@@ -184,7 +184,7 @@ export const newsApi = createApi({
     }),
     updateUser: builder.mutation<void, updateUserParam>({
       query: ({ user, image }) => ({
-        url: `http://${SERVERHOST}/users`,
+        url: `https://${SERVERHOST}/users`,
         method: "PUT",
         body: { usersDTO: user, image: image },
       }),
@@ -196,7 +196,7 @@ export const newsApi = createApi({
     //-------TOKEN
     getToken: builder.query<Token, GetTokenQueryParams>({
       query: (params: GetTokenQueryParams) => ({
-        url: `http://${SERVERHOST}/authentication`,
+        url: `https://${SERVERHOST}/authentication`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +211,7 @@ export const newsApi = createApi({
     //----EMAIL
     checkUniqueEmail: builder.query<boolean, string>({
       query: (email: string) => ({
-        url: `http://${SERVERHOST}/users/checkemail/${email}`,
+        url: `https://${SERVERHOST}/users/checkemail/${email}`,
         method: "GET",
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
@@ -224,7 +224,7 @@ export const newsApi = createApi({
     //----IMAGE
     uploadImage: builder.mutation<void, string>({
       query: (image: string) => ({
-        url: `http://${SERVERHOST}news/uploadimage`,
+        url: `https://${SERVERHOST}news/uploadimage`,
         method: "POST",
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
@@ -239,7 +239,7 @@ export const newsApi = createApi({
     //----  COMMENT
     addComment: builder.mutation<void, Comment>({
       query: (comment: Comment) => ({
-        url: `http://${SERVERHOST}/comment`,
+        url: `https://${SERVERHOST}/comment`,
         method: "POST",
         // headers: {
         //   "Content-Type": "text/plain; charset=utf-8",
@@ -260,7 +260,7 @@ export const newsApi = createApi({
     //----- LIKE
     addLike: builder.mutation<void, Like>({
       query: (like: Like) => ({
-        url: `http://${SERVERHOST}/news/addlike`,
+        url: `https://${SERVERHOST}/news/addlike`,
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
